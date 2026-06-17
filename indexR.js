@@ -52,18 +52,18 @@ app.post("/musicas", (req, res) => {
     }
 })
 //DELETE /musicas/:id
-app.delete("/musicas:id", (req, res) => {
+app.delete("/musicas/:id", (req, res) => {
     const id = req.params.id
     const dados = req.body
     try{
         const musicas = JSON.parse(fs.readFileSync('bdM.json', 'utf-8'))
-        const indice_musica = musicas.findIndex((musica) => musica.id == cpf)
+        const indice_musica = musicas.findIndex((musica) => musica.id == id)
         if (indice_musica == -1){
             return res.status(404).json({resposta: "Música não encontrada"})
         }
         musicas.splice(indice_musica, 1)
         fs.writeFileSync('bdM.json', JSON.stringify(musicas), 'utf-8')
-        res.status(200).json({resposta: "Música encontrada!"})
+        res.status(200).json({resposta: "Música deletada!"})
     } catch{
         res.status(500).json({resposta: error.message})
     }
@@ -74,7 +74,7 @@ app.get("/musicas/estilo/:estilo", (req, res) => {
     const estilo = req.params.estilo
     try{
         const musicas = JSON.parse(fs.readFileSync('bdM.json', 'utf-8'))
-        const musica_encontrada = musicas.find((musica) => musica.estilo.replace(/\D/g, "") == estilo)
+        const musica_encontrada = musicas.filter((musica) => musica.estilo == estilo)
         if (!musica_encontrada){
             res.status(404).json({erro: "Não existe esse estilo"})
         }
