@@ -30,7 +30,7 @@ app.get("/musicas/:id", (req, res) => {
         if (!musica_encontrada){
             res.status(404).json({erro: "Não existe esse id"})
         }
-        res.status(500).json(musica_encontrada)
+        res.status(200).json(musica_encontrada)
     } catch (error){
         res.status(500).json({reposta: error.message})
     }
