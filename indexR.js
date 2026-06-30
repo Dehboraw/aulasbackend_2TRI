@@ -71,11 +71,11 @@ app.delete("/musicas/:id", (req, res) => {
 
 //GET /musicas/estilo/:estilo
 app.get("/musicas/estilo/:estilo", (req, res) => {
-    const estilo = req.params.estilo
+    const estilo = req.params.estilo // req.params para requisição de um atributo
     try{
         const musicas = JSON.parse(fs.readFileSync('bdM.json', 'utf-8'))
         const musica_encontrada = musicas.filter((musica) => musica.estilo == estilo)
-        if (!musica_encontrada){
+        if (musica_encontrada.length == 0){
             res.status(404).json({erro: "Não existe esse estilo"})
         }
         res.status(500).json(musica_encontrada)
